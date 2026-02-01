@@ -1,6 +1,6 @@
-# Email Client Frontend
+# Orders Management Frontend
 
-Next.js 16+ frontend for the email client application.
+Next.js 16+ frontend for the orders management application.
 
 ## Setup
 
@@ -13,60 +13,109 @@ App runs at `http://localhost:3000`
 
 ---
 
+## Mock Data
+
+**Important:** Candidates must seed their own mock data via the backend API or in-memory storage.
+
+---
+
 ## Required Components
 
 Build these sections to match `implementation.jpeg`:
 
 ### 1. Header
-- Logo (with orange star icon)
+- Logo (Prodex with orange star icon)
 - Collapse sidebar toggle
+- "Orders" page title
+- User avatar stack with "+2" indicator
+- Notification bell with red badge (24)
 - Search bar with ⌘K shortcut
-- Page title ("Emails")
-- "Search Email" input and "+ New Message" button
+- User profile avatar
 
 ### 2. Sidebar
-- Main nav: Dashboard, Notifications, Tasks, Calendar, Widgets
-- Marketing section: Product, Emails (active), Integration, Contacts
-- Favorite section with colored indicators:
-  - Opportunity Stages (red square)
-  - Key Metrics (green square)
-  - Product Plan (orange square)
-- Footer: Settings, Help & Center
-- User profile with storage usage bar
+- Workspace selector dropdown (Uxerflow)
+- Main section:
+  - Dashboard
+  - Products (with expand arrow)
+  - Orders (expanded, active)
+    - All Orders (highlighted/active)
+    - Returns
+    - Order Tracking
+  - Sales
+  - Customers
+  - Reports
+- Settings section:
+  - Marketplace Sync
+  - Payment Gateways
+  - Settings (with expand arrow)
+  - Help Center
+- Dark Mode toggle at bottom
+- Upgrade to Premium card:
+  - Premium badge
+  - "Your Premium Account will expire in 18 days"
+  - "Upgrade Now" button
 
-### 3. Email List Panel
-- Filter tabs: All Mails, Unread, Archive
-- Email list with:
-  - Sender avatar and name
-  - Subject line (emoji support)
-  - Preview text (truncated)
-  - Timestamp
-  - Unread indicator (blue dot)
-  - Hover actions (archive, forward, more)
-- Pagination info (e.g., "1-20 of 2,312")
+### 3. Statistics Cards
+Four cards in a row showing:
+- Total Orders This Month: 200 (blue indicator)
+- Pending Orders: 20 (yellow indicator)
+- Shipped Orders: 180 (green indicator)
+- Refunded Orders: 10 (red indicator)
 
-### 4. Email Detail View
-Header section:
-- Sender avatar, name, email
-- Recipient ("To: Richard Brown")
-- Date and time
-- Action icons (mark read, archive, forward, more)
+### 4. Orders Table
 
-Body section:
-- Subject with emoji
-- Full email content
-- Attachment card with:
-  - File icon
-  - Filename and size
-  - Download link
+#### Header Section
+- "All Orders" title
+- Action buttons:
+  - "Bulk Update Status" (icon + text)
+  - "Export Orders" (icon + text)
+  - "+ Add Orders" (dark button)
 
-### 5. Reply Composer
-- "To:" recipient dropdown
-- Expand/close buttons
-- Email body textarea
-- "Send Now" button (dark with icon)
-- Schedule send button
-- Toolbar: attachment, emoji, template, more options
+#### Filter Tabs
+- All (active)
+- Incomplete
+- Overdue
+- Ongoing
+- Finished
+
+#### Table Columns
+| Column | Features |
+|--------|----------|
+| Checkbox | Individual row selection |
+| Order Number | Sortable, format: #ORD1008 |
+| Customer Name | Avatar + name, sortable |
+| Order Date | Format: 17 Dec 2024, sortable |
+| Status | Color-coded badges (Pending=yellow, Completed=green, Refunded=red) |
+| Total Amount | Currency format: $10.50, sortable |
+| Payment Status | Paid/Unpaid text, sortable |
+| Action | Edit (pencil), Delete (trash), More (...) icons |
+
+### 5. Bulk Operations (Primary Focus)
+
+#### Row Selection
+- Checkbox on each row
+- Selected rows should be visually distinct
+- Track selected order IDs in state
+
+#### Bulk Action Bar
+Floating bar appears when items are selected:
+- Left side: "X Selected" count
+- Action buttons:
+  - Duplicate (copy icon)
+  - Print (printer icon)
+  - Delete (trash icon, red text)
+- Close button (X icon)
+
+#### Implementation Notes
+- Use React state to track selected items
+- Show/hide action bar based on selection count
+- Wire up API calls for bulk operations
+- Update table after bulk actions complete
+
+### 6. Pagination
+- Left: "Showing 1-9 of 240 entries"
+- Right: Previous button, page numbers (1, 2, 3, ..., 12), Next button
+- Current page highlighted
 
 ---
 
@@ -74,21 +123,40 @@ Body section:
 
 Backend runs at `http://localhost:8000`
 
+### Standard CRUD
 ```typescript
-// Fetch all emails
-GET /emails
+// Fetch all orders with pagination
+GET /orders?status=all&page=1&limit=10
 
-// Fetch single email
-GET /emails/{id}
+// Fetch order statistics
+GET /orders/stats
 
-// Send/create email
-POST /emails
+// Fetch single order
+GET /orders/{id}
 
-// Update email (mark read, archive)
-PUT /emails/{id}
+// Create order
+POST /orders
 
-// Delete email
-DELETE /emails/{id}
+// Update order
+PUT /orders/{id}
+
+// Delete order
+DELETE /orders/{id}
+```
+
+### Bulk Operations
+```typescript
+// Bulk update status
+PUT /orders/bulk/status
+Body: { order_ids: string[], status: string }
+
+// Bulk duplicate
+POST /orders/bulk/duplicate
+Body: { order_ids: string[] }
+
+// Bulk delete
+DELETE /orders/bulk
+Body: { order_ids: string[] }
 ```
 
 ---
@@ -98,6 +166,36 @@ DELETE /emails/{id}
 - Use Tailwind CSS utilities extensively
 - Match colors, spacing, and typography from the design
 - Primary accent color: Orange (#F97316 or similar)
-- Dark button style for "+ New Message" and "Send Now"
+- Status badge colors:
+  - Pending: Yellow/amber background
+  - Completed: Green background
+  - Refunded: Red background
+- Dark button style for "+ Add Orders"
 - Gray/neutral tones for sidebar and backgrounds
+- Table row hover states
+- Selected row highlight
 - You can use additional UI libraries if required
+
+---
+
+## Component Structure Suggestion
+
+```
+components/
+├── layout/
+│   ├── Sidebar.tsx
+│   ├── Header.tsx
+│   └── Layout.tsx
+├── orders/
+│   ├── StatsCards.tsx
+│   ├── OrdersTable.tsx
+│   ├── OrderRow.tsx
+│   ├── BulkActionBar.tsx
+│   ├── FilterTabs.tsx
+│   └── Pagination.tsx
+└── ui/
+    ├── Button.tsx
+    ├── Checkbox.tsx
+    ├── Badge.tsx
+    └── Avatar.tsx
+```

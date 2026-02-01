@@ -1,6 +1,6 @@
-# Email API
+# Orders API
 
-FastAPI backend for the email client application.
+FastAPI backend for the orders management application.
 
 ## Setup
 ### 1. Setup Virtual Environment
@@ -21,132 +21,144 @@ Server runs at `http://localhost:8000`
 
 ---
 
+## Mock Data
+
+**Important:** Candidates must seed their own mock data. Create orders matching the design with various statuses and payment states.
+
+---
+
 ## API Contracts
 
-### Email Model
+### Order Model
 
 ```json
 {
   "id": "string",
-  "sender": {
+  "order_number": "string (e.g., #ORD1008)",
+  "customer": {
     "name": "string",
     "email": "string",
     "avatar": "string (URL)"
   },
-  "recipient": {
-    "name": "string",
-    "email": "string"
-  },
-  "subject": "string",
-  "preview": "string",
-  "body": "string",
-  "date": "string (ISO 8601)",
-  "is_read": "boolean",
-  "is_archived": "boolean",
-  "attachments": [
-    {
-      "filename": "string",
-      "size": "string",
-      "url": "string"
-    }
-  ]
+  "order_date": "string (ISO 8601)",
+  "status": "string (pending | completed | refunded)",
+  "total_amount": "number",
+  "payment_status": "string (paid | unpaid)",
+  "created_at": "string (ISO 8601)",
+  "updated_at": "string (ISO 8601)"
+}
+```
+
+### Order Statistics Model
+
+```json
+{
+  "total_orders_this_month": "number",
+  "pending_orders": "number",
+  "shipped_orders": "number",
+  "refunded_orders": "number"
 }
 ```
 
 ---
 
-### Endpoints
+## Endpoints
 
-#### GET /emails
+### GET /orders
 
-Fetch all emails.
+Fetch all orders with optional filtering.
 
 **Query Parameters:**
-- `filter`: `all` | `unread` | `archived` (default: `all`)
+- `status`: `all` | `incomplete` | `overdue` | `ongoing` | `finished` (default: `all`)
+- `page`: Page number (default: `1`)
+- `limit`: Items per page (default: `10`)
 
 **Response:** `200 OK`
 ```json
-[
-  {
-    "id": "1",
-    "sender": {
-      "name": "Jane Doe",
-      "email": "jane.doe@business.com",
-      "avatar": "/avatars/jane.jpg"
-    },
-    "recipient": {
-      "name": "Richard Brown",
-      "email": "richard@example.com"
-    },
-    "subject": "Proposal for Partnership🎉",
-    "preview": "Hi John, Hope this email finds you well. I'm rea...",
-    "body": "Hi John,\n\nhope this message finds you well! I'm reaching out to explore a potential partnership...",
-    "date": "2024-12-10T09:00:00",
-    "is_read": false,
-    "is_archived": false,
-    "attachments": [
-      {
-        "filename": "Proposal Partnership.pdf",
-        "size": "1.5 MB",
-        "url": "/files/proposal.pdf"
-      }
-    ]
-  }
-]
+{
+  "orders": [
+    {
+      "id": "1",
+      "order_number": "#ORD1008",
+      "customer": {
+        "name": "Esther Kiehn",
+        "email": "esther@example.com",
+        "avatar": "/avatars/esther.jpg"
+      },
+      "order_date": "2024-12-17",
+      "status": "pending",
+      "total_amount": 10.50,
+      "payment_status": "unpaid",
+      "created_at": "2024-12-17T09:00:00",
+      "updated_at": "2024-12-17T09:00:00"
+    }
+  ],
+  "total": 240,
+  "page": 1,
+  "limit": 10,
+  "total_pages": 24
+}
 ```
 
 ---
 
-#### GET /emails/{id}
+### GET /orders/stats
 
-Fetch a single email by ID.
+Fetch order statistics for dashboard cards.
+
+**Response:** `200 OK`
+```json
+{
+  "total_orders_this_month": 200,
+  "pending_orders": 20,
+  "shipped_orders": 180,
+  "refunded_orders": 10
+}
+```
+
+---
+
+### GET /orders/{id}
+
+Fetch a single order by ID.
 
 **Response:** `200 OK`
 ```json
 {
   "id": "1",
-  "sender": {
-    "name": "Jane Doe",
-    "email": "jane.doe@business.com",
-    "avatar": "/avatars/jane.jpg"
+  "order_number": "#ORD1008",
+  "customer": {
+    "name": "Esther Kiehn",
+    "email": "esther@example.com",
+    "avatar": "/avatars/esther.jpg"
   },
-  "recipient": {
-    "name": "Richard Brown",
-    "email": "richard@example.com"
-  },
-  "subject": "Proposal for Partnership🎉",
-  "preview": "Hi John, Hope this email finds you well. I'm rea...",
-  "body": "Hi John,\n\nhope this message finds you well! I'm reaching out to explore a potential partnership between our companies. At Jane Corp, which could complement your offerings at John Organisation Corp.\n\nI've attached a proposal detailing how we envision our collaboration, including key benefits, timelines, and implementation strategies. I believe this partnership could unlock exciting opportunities for both of us!\n\nLet me know your thoughts or a convenient time to discuss this further. I'm happy to schedule a call or meeting at your earliest convenience. Looking forward to hearing from you!\n\nWarm regards,\nJane Doe",
-  "date": "2024-12-10T09:00:00",
-  "is_read": true,
-  "is_archived": false,
-  "attachments": [
-    {
-      "filename": "Proposal Partnership.pdf",
-      "size": "1.5 MB",
-      "url": "/files/proposal.pdf"
-    }
-  ]
+  "order_date": "2024-12-17",
+  "status": "pending",
+  "total_amount": 10.50,
+  "payment_status": "unpaid",
+  "created_at": "2024-12-17T09:00:00",
+  "updated_at": "2024-12-17T09:00:00"
 }
 ```
 
-**Error:** `404 Not Found` if email doesn't exist
+**Error:** `404 Not Found` if order doesn't exist
 
 ---
 
-#### POST /emails
+### POST /orders
 
-Create/send a new email.
+Create a new order.
 
 **Request Body:**
 ```json
 {
-  "recipient": {
-    "name": "Jane Doe",
-    "email": "jane.doe@business.com"
+  "customer": {
+    "name": "John Doe",
+    "email": "john@example.com"
   },
-  "subject": "Re: Proposal for Partnership",
-  "body": "Hi Jane,\n\nThank you for reaching out and for sharing your proposal!..."
+  "total_amount": 150.00,
+  "status": "pending",
+  "payment_status": "unpaid"
 }
 ```
 
@@ -154,34 +166,32 @@ Create/send a new email.
 ```json
 {
   "id": "generated-id",
-  "sender": {
-    "name": "Richard Brown",
-    "email": "richard@example.com",
-    "avatar": "/avatars/richard.jpg"
+  "order_number": "#ORD1009",
+  "customer": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "avatar": null
   },
-  "recipient": {
-    "name": "Jane Doe",
-    "email": "jane.doe@business.com"
-  },
-  "subject": "Re: Proposal for Partnership",
-  "body": "Hi Jane,\n\nThank you for reaching out and for sharing your proposal!...",
-  "date": "2024-12-10T10:30:00",
-  "is_read": true,
-  "is_archived": false,
-  "attachments": []
+  "order_date": "2024-12-17",
+  "status": "pending",
+  "total_amount": 150.00,
+  "payment_status": "unpaid",
+  "created_at": "2024-12-17T10:30:00",
+  "updated_at": "2024-12-17T10:30:00"
 }
 ```
 
 ---
 
-#### PUT /emails/{id}
+### PUT /orders/{id}
 
-Update an existing email (mark as read, archive, etc.).
+Update an existing order.
 
 **Request Body:** (partial update allowed)
 ```json
 {
-  "is_read": true
+  "status": "completed",
+  "payment_status": "paid"
 }
 ```
 
@@ -189,50 +199,128 @@ Update an existing email (mark as read, archive, etc.).
 ```json
 {
   "id": "1",
-  "sender": {
-    "name": "Jane Doe",
-    "email": "jane.doe@business.com",
-    "avatar": "/avatars/jane.jpg"
+  "order_number": "#ORD1008",
+  "customer": {
+    "name": "Esther Kiehn",
+    "email": "esther@example.com",
+    "avatar": "/avatars/esther.jpg"
   },
-  "recipient": {
-    "name": "Richard Brown",
-    "email": "richard@example.com"
-  },
-  "subject": "Proposal for Partnership🎉",
-  "preview": "Hi John, Hope this email finds you well. I'm rea...",
-  "body": "...",
-  "date": "2024-12-10T09:00:00",
-  "is_read": true,
-  "is_archived": false,
-  "attachments": []
+  "order_date": "2024-12-17",
+  "status": "completed",
+  "total_amount": 10.50,
+  "payment_status": "paid",
+  "created_at": "2024-12-17T09:00:00",
+  "updated_at": "2024-12-17T11:00:00"
 }
 ```
 
-**Error:** `404 Not Found` if email doesn't exist
+**Error:** `404 Not Found` if order doesn't exist
 
 ---
 
-#### DELETE /emails/{id}
+### DELETE /orders/{id}
 
-Delete an email.
+Delete an order.
 
 **Response:** `204 No Content`
 
-**Error:** `404 Not Found` if email doesn't exist
+**Error:** `404 Not Found` if order doesn't exist
+
+---
+
+## Bulk Operations Endpoints
+
+### PUT /orders/bulk/status
+
+Bulk update status for multiple orders.
+
+**Request Body:**
+```json
+{
+  "order_ids": ["1", "2", "3"],
+  "status": "completed"
+}
+```
+
+**Response:** `200 OK`
+```json
+{
+  "updated_count": 3,
+  "orders": [
+    { "id": "1", "status": "completed" },
+    { "id": "2", "status": "completed" },
+    { "id": "3", "status": "completed" }
+  ]
+}
+```
+
+---
+
+### POST /orders/bulk/duplicate
+
+Duplicate multiple orders.
+
+**Request Body:**
+```json
+{
+  "order_ids": ["1", "2"]
+}
+```
+
+**Response:** `201 Created`
+```json
+{
+  "duplicated_count": 2,
+  "new_orders": [
+    {
+      "id": "new-id-1",
+      "order_number": "#ORD1009",
+      "original_order_id": "1"
+    },
+    {
+      "id": "new-id-2",
+      "order_number": "#ORD1010",
+      "original_order_id": "2"
+    }
+  ]
+}
+```
+
+---
+
+### DELETE /orders/bulk
+
+Bulk delete multiple orders.
+
+**Request Body:**
+```json
+{
+  "order_ids": ["1", "2", "3"]
+}
+```
+
+**Response:** `200 OK`
+```json
+{
+  "deleted_count": 3,
+  "deleted_ids": ["1", "2", "3"]
+}
+```
 
 ---
 
 ## Sample Data
 
-Seed your in-memory storage with emails matching the design:
+Seed your storage with orders matching the design:
 
-| Sender | Subject | Date | Read |
-|--------|---------|------|------|
-| Michael Lee | Follow-Up: Product Demo Feedba... | 9:00 | No |
-| Jane Doe | Proposal for Partnership🎉 | 10 Dec | No |
-| Support Team | Contract Renewal Due 📬 | 11 Dec | Yes |
-| Sarah Connor | Meeting Recap: Strategies for 2... | 11 Dec | Yes |
-| Downe Johnson | Invitation: Annual Client Appreci... | 11 Dec | Yes |
-| Lily Alexa | Technical Support Update | 10 Dec | Yes |
-| Natasha Brown | Happy Holidays from Kozuki tea... | 10 Dec | Yes |
-| Downe Johnson | Invitation: Annual Client Appreci... | 11 Dec | Yes |
+| Order Number | Customer | Order Date | Status | Amount | Payment |
+|--------------|----------|------------|--------|--------|---------|
+| #ORD1008 | Esther Kiehn | 17 Dec 2024 | Pending | $10.50 | Unpaid |
+| #ORD1007 | Denise Kuhn | 16 Dec 2024 | Pending | $100.50 | Unpaid |
+| #ORD1006 | Clint Hoppe | 16 Dec 2024 | Completed | $60.56 | Paid |
+| #ORD1005 | Darin Deckow | 16 Dec 2024 | Refunded | $640.50 | Paid |
+| #ORD1004 | Jacquelyn Robel | 15 Dec 2024 | Completed | $39.50 | Paid |
+| #ORD1003 | Clint Hoppe | 16 Dec 2024 | Completed | $29.50 | Paid |
+| #ORD1002 | Erin Bins | 16 Dec 2024 | Completed | $120.35 | Paid |
+| #ORD1001 | Gretchen Quitz... | 14 Dec 2024 | Refunded | $123.50 | Paid |
+| #ORD1000 | Stewart Kulas | - | - | - | Paid |

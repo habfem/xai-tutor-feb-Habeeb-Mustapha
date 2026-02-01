@@ -1,12 +1,12 @@
-# Fullstack Developer Challenge: Email Client Application
+# Fullstack Developer Challenge: Orders Management Application
 
 ## Overview
-This is a timed coding exercise to evaluate your ability to build a fullstack application matching the provided design. Your task is to replicate the email client interface shown below.
+This is a timed coding exercise to evaluate your ability to build a fullstack application matching the provided design. Your task is to replicate the orders management interface shown below, with a focus on **bulk operations** functionality.
 
 ![Implementation](implementation.jpeg)
 
 ## Time Limit
-**90 minutes** – Prioritize core functionality and visual accuracy.
+**90 minutes** – Prioritize core functionality (especially bulk operations) and visual accuracy.
 
 ## Tech Stack
 - **Frontend:** Next.js 16+ (App Router) with Tailwind CSS
@@ -78,75 +78,111 @@ python migrate.py downgrade
 python migrate.py list
 ```
 
+## Mock Data
+
+**Important:** Candidates are responsible for seeding their own mock data. Create sample orders that match the design, including various statuses (Pending, Completed, Refunded) and payment states (Paid, Unpaid).
+
 ## Required Scope
 
 Build the following sections from `implementation.jpeg`:
 
 ### 1. Header
-- Logo (orange star icon)
+- Logo (Prodex with orange icon)
 - Collapse sidebar button
+- "Orders" page title
+- User avatars with "+2" indicator
+- Notification bell with badge
 - Search bar with keyboard shortcut (⌘K)
-- "Emails" page title
-- "Search Email" input and "+ New Message" button (dark)
+- User profile dropdown
 
 ### 2. Left Sidebar
-- Main navigation: Dashboard, Notifications, Tasks, Calendar, Widgets
-- Marketing section: Product, Emails (active with highlight), Integration, Contacts
-- Favorite section with color-coded items:
-  - Opportunity Stages (red)
-  - Key Metrics (green)
-  - Product Plan (orange)
-- Bottom section: Settings, Help & Center
-- User profile (Richard Brown) with storage indicator (6.2GB of 10GB)
+- Workspace selector (Uxerflow dropdown)
+- Main navigation: Dashboard, Products (expandable), Orders (expanded/active), Sales, Customers, Reports
+- Orders sub-menu: All Orders (active), Returns, Order Tracking
+- Settings section: Marketplace Sync, Payment Gateways, Settings, Help Center
+- Dark Mode toggle
+- Upgrade to Premium card with expiry info
 
-### 3. Email List Panel
-- Tab filters: All Mails, Unread, Archive
-- Email list items showing:
-  - Sender avatar
-  - Sender name
-  - Subject line (with emoji support)
-  - Preview text
-  - Date/time
-  - Unread indicator (blue dot)
-  - Action icons on hover (archive, forward, more)
+### 3. Statistics Cards
+Display four summary cards:
+- Total Orders This Month (blue dot indicator)
+- Pending Orders (yellow dot indicator)
+- Shipped Orders (green dot indicator)
+- Refunded Orders (red dot indicator)
 
-### 4. Email Detail View (Core Feature)
-- Sender info header: avatar, name, email address, recipient, date/time
-- Action icons: mark as read, archive, forward, more options
-- Email subject with emoji
-- Full email body content
-- Attachment section with file info and download link
+### 4. Orders Table (Core Feature)
 
-### 5. Reply Composer
-- Recipient selector dropdown
-- Rich text email body
-- "Send Now" button with schedule option
-- Attachment, emoji, template, and more options icons
+#### Header Actions
+- "Bulk Update Status" button
+- "Export Orders" button
+- "+ Add Orders" button (dark/primary)
+
+#### Filter Tabs
+- All, Incomplete, Overdue, Ongoing, Finished
+
+#### Table Columns
+- Checkbox (for bulk selection)
+- Order Number (sortable)
+- Customer Name with avatar (sortable)
+- Order Date (sortable)
+- Status (Pending/Completed/Refunded with color coding)
+- Total Amount (sortable)
+- Payment Status (Paid/Unpaid) (sortable)
+- Action (edit, delete, more options)
+
+### 5. Bulk Operations (Primary Focus)
+
+This is the core functionality to implement:
+
+#### Selection
+- Individual row checkboxes
+- Select all functionality (optional)
+- Visual indication of selected rows
+
+#### Bulk Action Bar
+When items are selected, show a floating action bar with:
+- Selected count ("2 Selected")
+- Duplicate button
+- Print button
+- Delete button (red/destructive)
+- Close/dismiss button
+
+### 6. Pagination
+- "Showing X-Y of Z entries" text
+- Previous/Next navigation
+- Page number buttons (1, 2, 3, ..., 12)
 
 ## API Requirements
 
 Create REST endpoints to support:
-- `GET /emails` – Fetch all emails
-- `GET /emails/{id}` – Fetch single email details
-- `POST /emails` – Send/create a new email
-- `PUT /emails/{id}` – Update email (mark as read, archive, etc.)
-- `DELETE /emails/{id}` – Delete an email
+- `GET /orders` – Fetch all orders (with filtering support)
+- `GET /orders/{id}` – Fetch single order details
+- `POST /orders` – Create a new order
+- `PUT /orders/{id}` – Update an order
+- `DELETE /orders/{id}` – Delete an order
+
+### Bulk Operations Endpoints
+- `PUT /orders/bulk/status` – Bulk update status for multiple orders
+- `POST /orders/bulk/duplicate` – Duplicate multiple orders
+- `DELETE /orders/bulk` – Bulk delete multiple orders
 
 ## What NOT to Build
 - User authentication
 - Mobile/responsive layouts
 - Real-time updates
-- Actual email sending functionality
+- Actual payment processing
 - Settings, Analytics, or other secondary pages
 - Drag-and-drop functionality
+- Export functionality (button only, no actual export)
+- Print functionality (button only, no actual printing)
 
 ## Evaluation Criteria
 
 | Category | Weight | Details |
 |----------|--------|---------|
-| **Visual Accuracy** | 40% | Match colors, typography, spacing, shadows, borders |
-| **Functionality** | 30% | CRUD operations work, data persists, UI updates correctly |
+| **Bulk Operations** | 35% | Selection works, bulk actions function correctly, UI updates properly |
+| **Visual Accuracy** | 30% | Match colors, typography, spacing, shadows, borders |
 | **Code Quality** | 20% | Clean component structure, proper API design, readable code |
-| **Layout & Structure** | 10% | Correct use of flex/grid, semantic HTML |
+| **Layout & Structure** | 15% | Correct use of flex/grid, semantic HTML, table implementation |
 
 Good luck!
