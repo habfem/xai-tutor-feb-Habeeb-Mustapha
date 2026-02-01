@@ -1,0 +1,91 @@
+[00:00:07.019] Server  LOG     ✓ Ready in 5.9s
+[00:00:18.195] Server  LOG     ○ Compiling / ...
+[00:00:35.567] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:36.818] Browser INFO    Provider initialised
+[00:00:36.818] Browser INFO    Provider initialised
+[00:00:36.818] Browser INFO    Provider initialised
+[00:00:36.818] Browser INFO    TronLink initiated
+[00:00:36.819] Browser WARN    Image with src "http://localhost:3000/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:39.965] Server  LOG     ✓ Finished writing to filesystem cache in 11.1s
+[00:01:40.129] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:40.796] Browser WARN    Image with src "http://localhost:3000/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:01:42.532] Browser ERROR   unhandledRejection: i: Failed to connect to MetaMask
+[00:21:33.043] Server  LOG     ✓ Compiled in 39ms
+[00:21:44.473] Server  LOG     ✓ Finished writing to filesystem cache in 12.6s
+[00:22:26.584] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:27.573] Browser WARN    Image with src "http://localhost:3000/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:23:17.524] Server  LOG     ✓ Finished writing to filesystem cache in 11.1s
+[00:24:15.915] Server  LOG     ○ Compiling /orders ...
+[00:25:30.778] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:25:32.311] Browser INFO    Provider initialised
+[00:25:32.311] Browser INFO    Provider initialised
+[00:25:32.311] Browser INFO    Provider initialised
+[00:25:32.311] Browser INFO    TronLink initiated
+[00:25:36.450] Browser ERROR   {}
+[00:25:36.492] Browser ERROR   {}
+[00:25:36.786] Browser ERROR   unhandledRejection: i: Failed to connect to MetaMask
+[00:25:46.900] Server  LOG     ✓ Finished writing to filesystem cache in 31.1s
+[00:25:51.157] Browser ERROR   {}
+[00:25:54.734] Browser ERROR   {}
+[00:32:37.466] Server  LOG     ✓ Compiled in 11ms
+[00:33:00.520] Browser ERROR   {}
+[00:33:00.521] Browser ERROR   {}
+[00:41:17.882] Server  LOG     ✓ Compiled in 4.7s
+[00:41:30.063] Server  LOG     ✓ Compiled in 815ms
+[00:41:37.814] Server  LOG     ✓ Compiled in 475ms
+[00:41:46.142] Server  LOG     ✓ Compiled in 403ms
+[00:42:29.863] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:42:30.248] Browser INFO    Provider initialised
+[00:42:30.248] Browser INFO    Provider initialised
+[00:42:30.248] Browser INFO    Provider initialised
+[00:42:30.374] Browser INFO    TronLink initiated
+[00:42:32.128] Browser ERROR   {}
+[00:42:32.128] Browser ERROR   {}
+[00:43:46.179] Server  LOG     ✓ Compiled in 1418ms
+[00:44:17.393] Server  LOG     ✓ Compiled in 2.8s
+[00:44:31.431] Server  LOG     ✓ Compiled in 494ms
+[00:44:32.695] Browser ERROR   {}
+[00:44:32.695] Browser ERROR   {}
+[00:44:36.233] Server  LOG     ✓ Compiled in 426ms
+[00:44:51.199] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:44:51.606] Browser ERROR   {}
+[00:44:51.606] Browser ERROR   {}
+[00:46:17.896] Server  LOG     ✓ Compiled in 1151ms
+[00:46:34.981] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:46:35.372] Browser INFO    Provider initialised
+[00:46:35.372] Browser INFO    Provider initialised
+[00:46:35.372] Browser INFO    Provider initialised
+[00:46:35.372] Browser INFO    TronLink initiated
+[00:46:35.576] Browser ERROR   {}
+[00:46:35.576] Browser ERROR   {}
+[00:46:45.664] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'charAt')
+[00:46:53.100] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:46:53.598] Browser ERROR   {}
+[00:46:53.598] Browser ERROR   {}
+[00:48:19.207] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'charAt')
+[00:49:20.633] Server  LOG     ✓ Compiled in 1082ms
+[00:49:20.739] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:49:25.027] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:49:25.499] Browser ERROR   {}
+[00:49:25.941] Browser ERROR   {}
+[00:49:30.057] Server  LOG     ✓ Compiled in 849ms
+[00:50:24.243] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:50:24.998] Browser ERROR   {}
+[00:50:24.998] Browser INFO    Provider initialised
+[00:50:24.998] Browser INFO    Provider initialised
+[00:50:24.999] Browser INFO    Provider initialised
+[00:50:24.999] Browser ERROR   {}
+[00:50:24.999] Browser INFO    TronLink initiated
+[00:50:29.491] Browser ERROR   uncaughtError: TypeError: Cannot read properties of undefined (reading 'charAt')
+[00:51:39.827] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:51:39.969] Browser ERROR   {}
+[00:51:39.969] Browser ERROR   {}
+[00:51:51.103] Server  LOG     ✓ Compiled in 310ms
+[00:52:07.080] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:52:07.283] Browser ERROR   {}
+[00:52:07.283] Browser ERROR   {}
+[00:53:14.981] Server  LOG     ✓ Compiled in 2.3s
+[00:53:40.701] Server  LOG     ✓ Compiled in 395ms
+[00:54:50.616] Server  LOG     ✓ Compiled in 215ms
+[00:54:58.454] Server  LOG     ✓ Compiled in 164ms
+[00:57:30.199] Server  LOG     ✓ Compiled in 2.6s
